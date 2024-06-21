@@ -1,5 +1,7 @@
 # Turtle
 
+[![Gitter](https://img.shields.io/badge/chat-discuss.pixls.us-ff69b4.svg?style=flat-square)](https://discuss.pixls.us/t/turtle-for-gimp/44067/4?u=emilygraceseville7cf)
+
 ## Description
 
 Script to draw simple drawings.
