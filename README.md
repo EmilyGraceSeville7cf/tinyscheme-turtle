@@ -66,7 +66,6 @@ Each command is a list.
 | red      | Change the turtle drawing color to red                  |                                       |                 |
 | green    | Change the turtle drawing color to green                |                                       |                 |
 | yellow   | Change the turtle drawing color to yellow               |                                       |                 |
-| yellow   | Change the turtle drawing color to yellow               |                                       |                 |
 | blue     | Change the turtle drawing color to blue                 |                                       |                 |
 | magenta  | Change the turtle drawing color to magenta              |                                       |                 |
 | cyan     | Change the turtle drawing color to cyan                 |                                       |                 |
