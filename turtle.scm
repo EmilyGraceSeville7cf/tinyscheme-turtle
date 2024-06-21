@@ -8,6 +8,7 @@
     turtle-pen-commands))
 
 
+; Convert a list | vector to a string with a specific delimiter
 (define (turtle-internal-sequence-to-string sequence delimiter)
     (let* ((new-sequence sequence))
         (if (vector? sequence)
@@ -24,12 +25,14 @@
     )
 )
 
+; Convert a list | vector to a string
 (define (turtle-sequence-to-string sequence delimiter)
     (string-append "("
         (turtle-internal-sequence-to-string sequence delimiter)
         ")")
 )
 
+; Convert a value to a string with a specific delimiter
 (define (turtle-to-string-with-delimiter value delimiter)
     (cond
         ((number? value) (number->string value))
@@ -55,6 +58,7 @@
     )
 )
 
+; Convert a value to a string
 (define (turtle-to-string value)
     (turtle-to-string-with-delimiter value ", ")
 )
