@@ -56,6 +56,7 @@ no-space-in-code: true
 no-space-in-links: true
 fenced-code-language:
   allowed_languages:
+    - json
     - fish
     - lisp
   language_only: true
@@ -77,12 +78,16 @@ required-headings:
     - "### Windows"
     - "+" # Configurations for different variables
     - "## Hints"
+    - "## Snippets"
+    - "+"
     - "## Example"
+
   match_case: true
 proper-names:
   code_blocks: false
   html_elements: false
   names:
+    - JSON
     - Fish
     - Lisp
 no-alt-text: true

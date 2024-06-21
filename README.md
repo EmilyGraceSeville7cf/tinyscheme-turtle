@@ -80,6 +80,30 @@ Each command is a list.
 - Separate logical blocks of commands by one space line, signifying different
   parts of the result image.
 
+## Snippets
+
+### Visual Studio Code
+
+```json
+{
+    "move": {
+        "prefix": "m",
+        "description": "[m]ove the turtle for a specific amount of units",
+        "body": "(${1|forward,backward|} ${2:units})"
+    },
+    "rotate": {
+        "prefix": "r",
+        "description": "[r]otate the turtle at a specific amount of degrees",
+        "body": "(${1|left,right|} ${2:degrees})"
+    },
+    "color": {
+        "prefix": "c",
+        "description": "Change the turtle drawing [c]olor",
+        "body": "(${1|black,red,green,yellow,blue,magenta,cyan,gray|})"
+    }
+}
+```
+
 ## Example
 
 Draw a red square 30x30:
