@@ -1,6 +1,7 @@
 # Turtle
 
-[![Gitter](https://img.shields.io/badge/chat-discuss.pixls.us-ff69b4.svg?style=flat-square)](https://discuss.pixls.us/t/turtle-for-gimp/44067/4?u=emilygraceseville7cf)
+[![discuss.pixls.us](https://img.shields.io/badge/chat-discuss.pixls.us-ff69b4.svg?style=flat-square)](https://discuss.pixls.us/t/turtle-for-gimp/44067/4?u=emilygraceseville7cf)
+[![emilygraceseville7cfg-gimp-scripts](https://img.shields.io/badge/chat-GIMP%20scripts-ff69b4.svg?style=flat-square)](https://groups.google.com/g/emilygraceseville7cfg-gimp-scripts)
 
 ## Description
 
