@@ -7,17 +7,26 @@
     turtle-color-commands
     turtle-pen-commands))
 
-(define (turtle-sequence-to-string-internal sequence delimiter)
-    (cond
-        ((null? sequence) "")
-        ((null? (cdr sequence)) (car sequence))
-        (else (string-append (car sequence) delimiter
-            (turtle-sequence-to-string-internal (cdr sequence) delimiter)))
+
+(define (turtle-internal-sequence-to-string sequence delimiter)
+    (let* ((new-sequence sequence))
+        (if (vector? sequence)
+            (set! new-sequence (vector->list sequence)))
+
+        (cond
+            ((null? new-sequence) "")
+            ((null? (cdr new-sequence)) (car new-sequence))
+            (else (string-append (car new-sequence)
+                delimiter
+                (turtle-internal-sequence-to-string (cdr new-sequence) delimiter))
+            )
+        )
     )
 )
 
 (define (turtle-sequence-to-string sequence delimiter)
-    (string-append "(" (turtle-sequence-to-string-internal sequence delimiter)
+    (string-append "("
+        (turtle-internal-sequence-to-string sequence delimiter)
         ")")
 )
 
@@ -25,14 +34,23 @@
     (cond
         ((number? value) (number->string value))
         ((symbol? value) (symbol->string value))
-        ((char? value) (string-append "character with " (number->string
-            (char->integer value)) " code"))
+        ((char? value) (string-append "character with "
+            (number->string (char->integer value)) " code"))
         
         ((equal? value #t) "true")
         ((equal? value #f) "false")
-        ((list? value) (turtle-sequence-to-string (map (lambda (value)
-            (turtle-to-string-with-delimiter value delimiter)) value) delimiter))
-        ((vector? value) "{{vector}}")
+        ((list? value) (turtle-sequence-to-string
+            (map (lambda (value)
+                (turtle-to-string-with-delimiter value delimiter))
+                value)
+            delimiter)
+        )
+        ((vector? value) (turtle-sequence-to-string
+            (map (lambda (value)
+                (turtle-to-string-with-delimiter value delimiter))
+                value)
+            delimiter)
+        )
         (else value)
     )
 )
