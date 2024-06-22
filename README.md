@@ -1,7 +1,6 @@
 # Turtle
 
 [![discuss.pixls.us](https://img.shields.io/badge/chat-Free%20Software%20Photography-ff69b4.svg?style=flat-square)](https://discuss.pixls.us/t/turtle-for-gimp/44067/4?u=emilygraceseville7cf)
-[![emilygraceseville7cfg-gimp-scripts](https://img.shields.io/badge/chat-Google%20Chat-ff69b4.svg?style=flat-square)](https://chat.google.com/room/AAAA3BSP5Q0?cls=7)
 
 ## Description
 
