@@ -284,49 +284,53 @@
                             (set! angle (+ angle (turtle-internal-argument command)))
                             (print (string-append "↪️ Turned to the right at " (number->string (turtle-internal-argument command)) " degrees")))
                         ((turtle-internal-is-expected-command command 'forward)
-                            (if (equal? pen-state 'down)
-                                (let*
-                                    (
-                                        (new-x (+ x (* (cos (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
-                                        (new-y (+ y (* (sin (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
-                                        (points (cons-array 4 'double))
-                                    )
-                                    
-                                    (aset points 0 x)
-                                    (aset points 1 y)
-                                    (aset points 2 new-x)
-                                    (aset points 3 new-y)
-                                    (gimp-pencil layer 4 points)
-                                    
-                                    (print (string-append "📝️ Drew a line from " (turtle-internal-point-to-string x y) " to " (turtle-internal-point-to-string new-x new-y)))
-                                    
-                                    (set! x new-x)
-                                    (set! y new-y)
+                            (let*
+                                (
+                                    (new-x (+ x (* (cos (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
+                                    (new-y (+ y (* (sin (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
+                                    (points (cons-array 4 'double))
                                 )
-                                (print "❌️✏️ Can't draw, pen is up")
+                                
+                                (aset points 0 x)
+                                (aset points 1 y)
+                                (aset points 2 new-x)
+                                (aset points 3 new-y)
+                                
+                                (cond
+                                    ((equal? pen-state 'down)
+                                        (gimp-pencil layer 4 points)
+                                        (print (string-append "📝️ Drew a line from " (turtle-internal-point-to-string x y) " to " (turtle-internal-point-to-string new-x new-y)))
+                                    )
+                                    (else (print "❌️✏️ Can't draw, pen is up"))
+                                )
+                                
+                                (set! x new-x)
+                                (set! y new-y)
                             )
                         )
                         ((turtle-internal-is-expected-command command 'backward)
-                            (if (equal? pen-state 'down)
-                                (let*
-                                    (
-                                        (new-x (- x (* (cos (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
-                                        (new-y (- y (* (sin (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
-                                        (points (cons-array 4 'double))
-                                    )
-                                    
-                                    (aset points 0 x)
-                                    (aset points 1 y)
-                                    (aset points 2 new-x)
-                                    (aset points 3 new-y)
-                                    (gimp-pencil layer 4 points)
-                                    
-                                    (print (string-append "📝️ Drew a line from " (turtle-internal-point-to-string x y) " to " (turtle-internal-point-to-string new-x new-y)))
-                                    
-                                    (set! x new-x)
-                                    (set! y new-y)
+                            (let*
+                                (
+                                    (new-x (- x (* (cos (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
+                                    (new-y (- y (* (sin (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
+                                    (points (cons-array 4 'double))
                                 )
-                                (print "❌️✏️ Can't draw, pen is up")
+                                
+                                (aset points 0 x)
+                                (aset points 1 y)
+                                (aset points 2 new-x)
+                                (aset points 3 new-y)
+                                
+                                (cond
+                                    ((equal? pen-state 'down)
+                                        (gimp-pencil layer 4 points)
+                                        (print (string-append "📝️ Drew a line from " (turtle-internal-point-to-string x y) " to " (turtle-internal-point-to-string new-x new-y)))
+                                    )
+                                    (else (print "❌️✏️ Can't draw, pen is up"))
+                                )
+                                
+                                (set! x new-x)
+                                (set! y new-y)
                             )
                         )
                     )
