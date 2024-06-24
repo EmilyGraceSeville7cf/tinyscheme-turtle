@@ -371,9 +371,11 @@ All commands should be put in a list like this: '((red) (forward 30) (left 90) (
     "copyright 2024, Maisa Unbelievable"
     "June 17, 2024"
     ""
-    SF-FILENAME "Path to a file with a 'turtle-configuration' variable with turtle commands" "/home/USER/.config/GIMP/2.10/scripts/NAME.scm"
-    SF-ADJUSTMENT "Initial X coordinate" '(0 0 1000 1 5 0 SF-SPINNER)
-    SF-ADJUSTMENT "Initial Y coordinate" '(0 0 1000 1 5 0 SF-SPINNER)
+    SF-FILENAME "Path to a configuration file\
+with a 'turtle-configuration' variable\
+with turtle commands" "/home/USER/.config/GIMP/2.10/scripts/NAME.scm"
+    SF-ADJUSTMENT "Initial X coordinate" '(50 0 1000 1 5 0 SF-SPINNER)
+    SF-ADJUSTMENT "Initial Y coordinate" '(50 0 1000 1 5 0 SF-SPINNER)
     SF-OPTION "Initial color" (map symbol->string turtle-color-commands)
     SF-OPTION "Initial pen state" (map symbol->string turtle-pen-commands)
     SF-ADJUSTMENT "Initial rotation angle" '(0 0 360 1 5 0 SF-SPINNER)
