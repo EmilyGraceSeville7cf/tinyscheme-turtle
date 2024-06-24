@@ -354,6 +354,7 @@
     )
 )
 
+
 (script-fu-register
     "turtle-draw"
     "Turtle draw"
@@ -369,7 +370,7 @@ All commands should be put in a list like this: '((red) (forward 30) (left 90) (
     "Maisa Unbelievable"
     "copyright 2024, Maisa Unbelievable"
     "June 17, 2024"
-    ""                                      ;image type that the script works on
+    ""
     SF-FILENAME "Path to a file with a 'turtle-configuration' variable with turtle commands" "/home/USER/.config/GIMP/2.10/scripts/NAME.scm"
     SF-ADJUSTMENT "Initial X coordinate" '(0 0 1000 1 5 0 SF-SPINNER)
     SF-ADJUSTMENT "Initial Y coordinate" '(0 0 1000 1 5 0 SF-SPINNER)
