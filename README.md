@@ -53,22 +53,23 @@ This platform is not tested yet, instructions for it may vary.
 
 Each command is a list.
 
-| Command  | Description                                             | Arguments                             | Example         |
-| -------- | ------------------------------------------------------- | ------------------------------------- | --------------- |
-| forward  | Move the turtle forward for a specific amount of units  | - `value` (integer) - a unit amount   | `(forward 30)`  |
-| backward | Move the turtle backward for a specific amount of units | - `value` (integer) - a unit amount   | `(backward 30)` |
-| left     | Rotate the turtle left at a specific amount of degrees  | - `value` (integer) - a degree amount | `(left 90)`     |
-| right    | Rotate the turtle right at a specific amount of degrees | - `value` (integer) - a degree amount | `(right 90)`    |
-| up       | Make turtle not draw on movements                       |                                       |                 |
-| down     | Make turtle draw on movements                           |                                       |                 |
-| black    | Change the turtle drawing color to black                |                                       |                 |
-| red      | Change the turtle drawing color to red                  |                                       |                 |
-| green    | Change the turtle drawing color to green                |                                       |                 |
-| yellow   | Change the turtle drawing color to yellow               |                                       |                 |
-| blue     | Change the turtle drawing color to blue                 |                                       |                 |
-| magenta  | Change the turtle drawing color to magenta              |                                       |                 |
-| cyan     | Change the turtle drawing color to cyan                 |                                       |                 |
-| gray     | Change the turtle drawing color to gray                 |                                       |                 |
+| Command  | Description                                             | Arguments                                                                        | Example           |
+| -------- | ------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------- |
+| move-on  | Move the turtle on a specific vector                    | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by X axis | `(move-on 30 30)` |
+| forward  | Move the turtle forward for a specific amount of units  | `value` (integer) - a unit amount                                                | `(forward 30)`    |
+| backward | Move the turtle backward for a specific amount of units | `value` (integer) - a unit amount                                                | `(backward 30)`   |
+| left     | Rotate the turtle left at a specific amount of degrees  | `value` (integer) - a degree amount                                              | `(left 90)`       |
+| right    | Rotate the turtle right at a specific amount of degrees | `value` (integer) - a degree amount                                              | `(right 90)`      |
+| up       | Make turtle not draw on movements                       |                                                                                  |                   |
+| down     | Make turtle draw on movements                           |                                                                                  |                   |
+| black    | Change the turtle drawing color to black                |                                                                                  |                   |
+| red      | Change the turtle drawing color to red                  |                                                                                  |                   |
+| green    | Change the turtle drawing color to green                |                                                                                  |                   |
+| yellow   | Change the turtle drawing color to yellow               |                                                                                  |                   |
+| blue     | Change the turtle drawing color to blue                 |                                                                                  |                   |
+| magenta  | Change the turtle drawing color to magenta              |                                                                                  |                   |
+| cyan     | Change the turtle drawing color to cyan                 |                                                                                  |                   |
+| gray     | Change the turtle drawing color to gray                 |                                                                                  |                   |
 
 ## API
 
@@ -123,5 +124,36 @@ Draw a red square 30x30:
     (forward 30)
     (left 90)
     (forward 30)
+))
+```
+
+Draw a multi-color cross sign 100x100:
+
+```lisp
+(define turtle-configuration '(
+    (down)
+    (red)
+    (move-on 50 50)
+
+    (up)
+    (move-on -50 -50)
+
+    (down)
+    (green)
+    (move-on -50 -50)
+
+    (up)
+    (move-on 50 50)
+
+    (down)
+    (blue)
+    (move-on 50 -50)
+
+    (up)
+    (move-on -50 50)
+
+    (down)
+    (yellow)
+    (move-on -50 50)
 ))
 ```
