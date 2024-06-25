@@ -147,19 +147,24 @@
     (not (turtle-internal-is-command command))
 )
 
-; Check whether a command has an argument
-(define (turtle-internal-has-argument command)
+; Check whether a command has a specific amount of arguments
+(define (turtle-internal-has-arguments command count)
+    (= (length (cdr command)) count)
+)
+
+; Check whether a command has any arguments
+(define (turtle-internal-has-any-arguments command)
     (not (null? (cdr command)))
 )
 
-; Check whether a command has no argument
-(define (turtle-internal-has-no-argument command)
-    (not (turtle-internal-has-argument command))
+; Check whether a command has no arguments
+(define (turtle-internal-has-no-arguments command)
+    (turtle-internal-has-arguments command 0)
 )
 
 ; Get a command argument
-(define (turtle-internal-argument command)
-    (cadr command)
+(define (turtle-internal-argument command index)
+    (nth index (cdr command))
 )
 
 ; Check whether a command is an expected one
@@ -207,7 +212,7 @@
 
                     ((and (or (turtle-internal-is-color-command command)
                         (turtle-internal-is-pen-command command))
-                        (turtle-internal-has-argument command))
+                        (turtle-internal-has-any-arguments command))
 
                         (turtle-internal-make-error "argument"
                             "configuration[...]"
@@ -220,25 +225,12 @@
                     
                     ((and (or (turtle-internal-is-movement-command command)
                         (turtle-internal-is-rotation-command command))
-                        (turtle-internal-has-no-argument command))
+                        (not (turtle-internal-has-arguments command 1)))
                         
                         (turtle-internal-make-error "argument"
                             "configuration[...]"
                             command-string
-                            (string-append "argument for "
-                                (turtle-to-string-with-delimiter (append
-                                    turtle-movement-commands
-                                    turtle-rotation-commands)
-                                    " | "))))
-
-                    ((and (or (turtle-internal-is-movement-command command)
-                        (turtle-internal-is-rotation-command command))
-                        (turtle-internal-has-no-argument command))
-                        
-                        (turtle-internal-make-error "argument"
-                            "configuration[...]"
-                            command-string
-                            (string-append "argument for "
+                            (string-append "one argument for "
                                 (turtle-to-string-with-delimiter (append
                                     turtle-movement-commands
                                     turtle-rotation-commands)
@@ -246,7 +238,7 @@
                     
                     ((and (or (turtle-internal-is-movement-command command)
                         (turtle-internal-is-rotation-command command))
-                        (not (integer? (turtle-internal-argument command))))
+                        (not (integer? (turtle-internal-argument command 0))))
                         
                         (turtle-internal-make-error "argument"
                             "configuration[...]"
@@ -350,18 +342,18 @@
                         
                         ((turtle-internal-is-expected-command command 'left)
                             (set! angle (- angle
-                                (turtle-internal-argument command)))
+                                (turtle-internal-argument command 0)))
                             (print (string-append "↪️ Turned to the left at "
                                 (number->string
-                                    (turtle-internal-argument command))
+                                    (turtle-internal-argument command 0))
                                 " degrees")))
                         
                         ((turtle-internal-is-expected-command command 'right)
                             (set! angle (+ angle
-                                (turtle-internal-argument command)))
+                                (turtle-internal-argument command 0)))
                             (print (string-append "↪️ Turned to the right at "
                                 (number->string
-                                    (turtle-internal-argument command))
+                                    (turtle-internal-argument command 0))
                                 " degrees")))
                         
                         ((turtle-internal-is-expected-command command 'forward)
@@ -371,14 +363,14 @@
                                             (cos
                                                 (turtle-internal-degrees-to-radians
                                                     angle))
-                                            (turtle-internal-argument command))))
+                                            (turtle-internal-argument command 0))))
 
                                     (new-y (+ y
                                         (*
                                             (sin
                                                 (turtle-internal-degrees-to-radians
                                                     angle))
-                                            (turtle-internal-argument command))))
+                                            (turtle-internal-argument command 0))))
                                     
                                     (points (cons-array 4 'double))
                                 )
@@ -417,14 +409,14 @@
                                             (cos
                                                 (turtle-internal-degrees-to-radians
                                                     angle))
-                                            (turtle-internal-argument command))))
+                                            (turtle-internal-argument command 0))))
 
                                     (new-y (- y
                                         (*
                                             (sin
                                                 (turtle-internal-degrees-to-radians
                                                     angle))
-                                            (turtle-internal-argument command))))
+                                            (turtle-internal-argument command 0))))
                                     
                                     (points (cons-array 4 'double))
                                 )
@@ -465,7 +457,17 @@
             (let* (
                     (message (string-append "Configuration in "
                         configuration-path
-                        " or input parameters are incorrect"))
+                        " or input parameters are incorrect.\
+\
+Configuration validation result: "
+                        (turtle-to-string
+                            (turtle-validate-configuration
+                                turtle-configuration))
+                        ".\
+\
+The 0th list item in the validation result corresponds to the 0th command.\
+If some item is true then this command is correct, otherwise it's not."
+                        ))
                 )
 
                 (print message)
