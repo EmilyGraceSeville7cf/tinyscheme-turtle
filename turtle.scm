@@ -540,6 +540,46 @@
                                 (set! y new-y)
                             )
                         )
+
+                        ((turtle-internal-is-expected-command command 'move-to)
+                            (let* (
+                                    (new-x (turtle-internal-argument
+                                        command
+                                        0))
+
+                                    (new-y (turtle-internal-argument
+                                        command
+                                        1))
+                                    
+                                    (points (cons-array 4 'double))
+                                )
+                                
+                                (aset points 0 x)
+                                (aset points 1 y)
+                                (aset points 2 new-x)
+                                (aset points 3 new-y)
+                                
+                                (cond
+                                    ((equal? pen-state 'down)
+                                        (gimp-pencil layer 4 points)
+                                        (print
+                                            (string-append
+                                                "📝️ Drew a line from "
+                                                (turtle-internal-point-to-string
+                                                    x
+                                                    y)
+                                                " to "
+                                                (turtle-internal-point-to-string
+                                                    new-x
+                                                    new-y)))
+                                    )
+                                    (else (print "❌️✏️ Can't draw, pen is up"))
+                                )
+                                
+                                (set! x new-x)
+                                (set! y new-y)
+                            )
+                        )
                     )
                 ) turtle-configuration)
                 
