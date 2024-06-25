@@ -26,6 +26,21 @@
     )
 )
 
+; Get a first item matching a predicate or a default value if such an item doesn't exist
+(define (turtle-internal-first-match-or-default predicate default list)
+    (cond
+        ((null? list) default)
+        (else
+            (cond
+                ((predicate (car list)) (car list))
+                (else (turtle-internal-first-match-or-default predicate
+                    default
+                    (cdr list)))
+            )
+        )
+    )
+)
+
 ; Convert a list | vector to a string with a specific delimiter
 (define (turtle-internal-sequence-to-string sequence delimiter)
     (let* (
@@ -455,19 +470,19 @@
             #t)
         (else
             (let* (
-                    (message (string-append "Configuration in "
+                    (first-error (turtle-internal-first-match-or-default
+                        string?
+                        ""
+                        (turtle-validate-configuration turtle-configuration)))
+                    (message
+                        "One or more input parameters for turtle-draw are incorrect")
+                )
+                
+                (if (not (equal? first-error ""))
+                    (set! message (string-append "One or more commands in "
                         configuration-path
-                        " or input parameters are incorrect.\
-\
-Configuration validation result: "
-                        (turtle-to-string
-                            (turtle-validate-configuration
-                                turtle-configuration))
-                        ".\
-\
-The 0th list item in the validation result corresponds to the 0th command.\
-If some item is true then this command is correct, otherwise it's not."
-                        ))
+                        " are invalid, the first error is: "
+                        first-error))
                 )
 
                 (print message)
