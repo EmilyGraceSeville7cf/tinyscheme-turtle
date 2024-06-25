@@ -1,8 +1,10 @@
+(define turtle-vector-movement-commands '(move-to move-on))
 (define turtle-movement-commands '(forward backward))
 (define turtle-rotation-commands '(left right))
 (define turtle-color-commands '(black red green yellow blue magenta cyan gray))
 (define turtle-pen-commands '(up down))
-(define turtle-all-commands (append turtle-movement-commands
+(define turtle-all-commands (append turtle-vector-movement-commands
+    turtle-movement-commands
     turtle-rotation-commands
     turtle-color-commands
     turtle-pen-commands))
@@ -112,6 +114,11 @@
         ", got: " (turtle-to-string actual) ")")
 )
 
+; Check whether a command is a vector movement command
+(define (turtle-internal-is-vector-movement-command command)
+    (turtle-internal-member? (car command) turtle-vector-movement-commands)
+)
+
 ; Check whether a command is a movement command
 (define (turtle-internal-is-movement-command command)
     (turtle-internal-member? (car command) turtle-movement-commands)
@@ -135,6 +142,11 @@
 ; Check whether a command is a turtle command
 (define (turtle-internal-is-command command)
     (turtle-internal-member? (car command) turtle-all-commands)
+)
+
+; Check whether a command is not a vector movement command
+(define (turtle-internal-is-not-vector-movement-command command)
+    (not (turtle-internal-is-vector-movement-command command))
 )
 
 ; Check whether a command is not a movement command
@@ -251,6 +263,18 @@
                                     turtle-rotation-commands)
                                     " | "))))
                     
+                    ((and (turtle-internal-is-vector-movement-command command)
+                        (not (turtle-internal-has-arguments command 2)))
+                        
+                        (turtle-internal-make-error "argument"
+                            "configuration[...]"
+                            command-string
+                            (string-append "two arguments for "
+                                (turtle-to-string-with-delimiter (append
+                                    turtle-movement-commands
+                                    turtle-rotation-commands)
+                                    " | "))))
+
                     ((and (or (turtle-internal-is-movement-command command)
                         (turtle-internal-is-rotation-command command))
                         (not (integer? (turtle-internal-argument command 0))))
@@ -264,6 +288,20 @@
                                         turtle-rotation-commands)
                                     " | "))))
                     
+                    ((and (turtle-internal-is-vector-movement-command command)
+                        (or
+                            (not (integer? (turtle-internal-argument command 0)))
+                            (not (integer? (turtle-internal-argument command 1)))
+                        ))
+                        
+                        (turtle-internal-make-error "argument"
+                            "configuration[...]"
+                            command-string
+                            (string-append "integer arguments for "
+                                (turtle-to-string-with-delimiter
+                                    turtle-vector-movement-commands
+                                    " | "))))
+
                     (else #t)
                 )
             )) configuration))
@@ -432,6 +470,46 @@
                                                 (turtle-internal-degrees-to-radians
                                                     angle))
                                             (turtle-internal-argument command 0))))
+                                    
+                                    (points (cons-array 4 'double))
+                                )
+                                
+                                (aset points 0 x)
+                                (aset points 1 y)
+                                (aset points 2 new-x)
+                                (aset points 3 new-y)
+                                
+                                (cond
+                                    ((equal? pen-state 'down)
+                                        (gimp-pencil layer 4 points)
+                                        (print
+                                            (string-append
+                                                "📝️ Drew a line from "
+                                                (turtle-internal-point-to-string
+                                                    x
+                                                    y)
+                                                " to "
+                                                (turtle-internal-point-to-string
+                                                    new-x
+                                                    new-y)))
+                                    )
+                                    (else (print "❌️✏️ Can't draw, pen is up"))
+                                )
+                                
+                                (set! x new-x)
+                                (set! y new-y)
+                            )
+                        )
+
+                        ((turtle-internal-is-expected-command command 'move-on)
+                            (let* (
+                                    (new-x (+ x (turtle-internal-argument
+                                        command
+                                        0)))
+
+                                    (new-y (+ y (turtle-internal-argument
+                                        command
+                                        1)))
                                     
                                     (points (cons-array 4 'double))
                                 )
