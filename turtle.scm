@@ -1,8 +1,19 @@
 (define turtle-vector-movement-commands '(move-to move-on))
 (define turtle-movement-commands '(forward backward))
 (define turtle-rotation-commands '(left right))
-(define turtle-color-commands '(black red green yellow blue magenta cyan gray))
+
+(define turtle-color-commands '(black
+    red
+    green
+    yellow
+    blue
+    magenta
+    cyan
+    gray
+    random-color))
+
 (define turtle-pen-commands '(up down))
+
 (define turtle-all-commands (append turtle-vector-movement-commands
     turtle-movement-commands
     turtle-rotation-commands
@@ -325,6 +336,9 @@
         ((equal? 'magenta color) '(255 0 138))
         ((equal? 'cyan color) '(2 247 243))
         ((equal? 'gray color) '(143 143 143))
+        ((equal? 'random-color color) (turtle-internal-color-to-rgb
+            (nth (rand (- (length turtle-color-commands) 1))
+            turtle-color-commands)))
         (else #f) 
     )
 )
@@ -353,6 +367,7 @@
     (load configuration-path)
     (set! color (nth color turtle-color-commands))
     (set! pen-state (nth pen-state turtle-pen-commands))
+    (srand (realtime))
 
     (cond
         ((and (integer? x)
