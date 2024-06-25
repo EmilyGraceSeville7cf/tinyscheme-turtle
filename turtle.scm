@@ -28,7 +28,10 @@
 
 ; Convert a list | vector to a string with a specific delimiter
 (define (turtle-internal-sequence-to-string sequence delimiter)
-    (let* ((new-sequence sequence))
+    (let* (
+            (new-sequence sequence)
+        )
+
         (if (vector? sequence)
             (set! new-sequence (vector->list sequence)))
 
@@ -37,7 +40,8 @@
             ((null? (cdr new-sequence)) (car new-sequence))
             (else (string-append (car new-sequence)
                 delimiter
-                (turtle-internal-sequence-to-string (cdr new-sequence) delimiter))
+                (turtle-internal-sequence-to-string (cdr new-sequence)
+                    delimiter))
             )
         )
     )
@@ -55,23 +59,27 @@
     (cond
         ((number? value) (number->string value))
         ((symbol? value) (symbol->string value))
+        
         ((char? value) (string-append "character with "
             (number->string (char->integer value)) " code"))
         
         ((equal? value #t) "true")
         ((equal? value #f) "false")
+
         ((list? value) (turtle-sequence-to-string
             (map (lambda (value)
                 (turtle-to-string-with-delimiter value delimiter))
                 value)
             delimiter)
         )
+
         ((vector? value) (turtle-sequence-to-string
             (map (lambda (value)
                 (turtle-to-string-with-delimiter value delimiter))
                 value)
             delimiter)
         )
+
         (else value)
     )
 )
@@ -164,48 +172,91 @@
 ; Check whether a configuration is correct
 (define (turtle-validate-configuration configuration)
     (cond
-        ((not (list? configuration)) (list (turtle-internal-make-error "type"
-            "configuration" configuration "{{list}}")))
-        (else (map (lambda (command)
-            (let* ((command-string (turtle-to-string-with-delimiter command " ")))
-                (cond
-                    ((null? command) (turtle-internal-make-error "type" "configuration[...]"
-                        "nothing" "{{list}}"))
-                    ((not (list? command)) (turtle-internal-make-error "type"
-                        "configuration[...]" command-string "{{list}}"))
+        ((not (list? configuration)) (list
+            (turtle-internal-make-error "type"
+                "configuration"
+                configuration
+                "{{list}}"
+            ))
+        )
 
-                    ((turtle-internal-is-not-command command) (turtle-internal-make-error "type"
-                        "configuration[...]" command-string (string-append "one of "
-                        (turtle-to-string-with-delimiter turtle-all-commands " | "))))
+        (else (map (lambda (command)
+            (let* (
+                    (command-string
+                        (turtle-to-string-with-delimiter command " "))
+                )
+
+                (cond
+                    ((null? command) (turtle-internal-make-error "type"
+                        "configuration[...]"
+                        "nothing"
+                        "{{list}}"))
+                    
+                    ((not (list? command)) (turtle-internal-make-error "type"
+                        "configuration[...]"
+                        command-string
+                        "{{list}}"))
+
+                    ((turtle-internal-is-not-command command)
+                        (turtle-internal-make-error "type"
+                            "configuration[...]"
+                            command-string
+                            (string-append "one of "
+                                (turtle-to-string-with-delimiter
+                                    turtle-all-commands " | "))))
 
                     ((and (or (turtle-internal-is-color-command command)
-                        (turtle-internal-is-pen-command command)) (turtle-internal-has-argument
-                        command)) (turtle-internal-make-error "argument" "configuration[...]"
-                        command-string (string-append "no argument for "
-                        (turtle-to-string-with-delimiter (append
-                        turtle-color-commands turtle-pen-commands) " | "))))
+                        (turtle-internal-is-pen-command command))
+                        (turtle-internal-has-argument command))
+
+                        (turtle-internal-make-error "argument"
+                            "configuration[...]"
+                            command-string
+                            (string-append "no argument for "
+                                (turtle-to-string-with-delimiter (append
+                                    turtle-color-commands
+                                    turtle-pen-commands)
+                                    " | "))))
+                    
                     ((and (or (turtle-internal-is-movement-command command)
                         (turtle-internal-is-rotation-command command))
-                        (turtle-internal-has-no-argument command)) (turtle-internal-make-error
-                        "argument" "configuration[...]" command-string (string-append
-                        "argument for " (turtle-to-string-with-delimiter (append
-                        turtle-movement-commands turtle-rotation-commands) " | "))))
+                        (turtle-internal-has-no-argument command))
+                        
+                        (turtle-internal-make-error "argument"
+                            "configuration[...]"
+                            command-string
+                            (string-append "argument for "
+                                (turtle-to-string-with-delimiter (append
+                                    turtle-movement-commands
+                                    turtle-rotation-commands)
+                                    " | "))))
 
                     ((and (or (turtle-internal-is-movement-command command)
                         (turtle-internal-is-rotation-command command))
-                        (turtle-internal-has-no-argument command)) (turtle-internal-make-error
-                        "argument" "configuration[...]" command-string
-                        (string-append "argument for "
-                        (turtle-to-string-with-delimiter (append
-                        turtle-movement-commands turtle-rotation-commands) " | "))))
+                        (turtle-internal-has-no-argument command))
+                        
+                        (turtle-internal-make-error "argument"
+                            "configuration[...]"
+                            command-string
+                            (string-append "argument for "
+                                (turtle-to-string-with-delimiter (append
+                                    turtle-movement-commands
+                                    turtle-rotation-commands)
+                                    " | "))))
                     
                     ((and (or (turtle-internal-is-movement-command command)
-                        (turtle-internal-is-rotation-command command)) (not (integer?
-                        (turtle-internal-argument command)))) (turtle-internal-make-error "argument"
-                        "configuration[...]" command-string (string-append
-                        "integer argument for " (turtle-to-string-with-delimiter
-                        (append turtle-movement-commands turtle-rotation-commands)
-                        " | "))))
+                        (turtle-internal-is-rotation-command command))
+                        (not (integer? (turtle-internal-argument command))))
+                        
+                        (turtle-internal-make-error "argument"
+                            "configuration[...]"
+                            command-string
+                            (string-append "integer argument for "
+                                (turtle-to-string-with-delimiter
+                                    (append turtle-movement-commands
+                                        turtle-rotation-commands)
+                                    " | "))))
+                    
                     (else #t)
                 )
             )) configuration))
@@ -214,7 +265,8 @@
 
 ; Check whether a configuration is correct
 (define (turtle-is-valid-configuration configuration)
-    (turtle-internal-all? boolean? (turtle-validate-configuration configuration))
+    (turtle-internal-all? boolean?
+        (turtle-validate-configuration configuration))
 )
 
 ; Convert a color name to RGB
@@ -243,10 +295,20 @@
 )
 
 ; Draw with a turtle
-(define (turtle-draw configuration-path x y color pen-state angle line-width image-width image-height)
+(define (turtle-draw configuration-path
+    x
+    y
+    color
+    pen-state
+    angle
+    line-width
+    image-width
+    image-height)
+
     (load configuration-path)
     (set! color (nth color turtle-color-commands))
     (set! pen-state (nth pen-state turtle-pen-commands))
+
     (cond
         ((and (integer? x)
             (integer? y)
@@ -254,12 +316,16 @@
             (turtle-internal-member? pen-state turtle-pen-commands)
             (turtle-is-valid-configuration turtle-configuration))
             
-            (let*
-                (
-                    (image (car (gimp-image-new image-width image-height
-                        RGB)))
-                    (layer (car (gimp-layer-new image image-width
-                        image-height RGB-IMAGE "drawing" 100 NORMAL-MODE)))
+            (let* (
+                    (image (car (gimp-image-new image-width image-height RGB)))
+                    (layer (car
+                        (gimp-layer-new image
+                            image-width
+                            image-height
+                            RGB-IMAGE
+                            "drawing"
+                            100
+                            NORMAL-MODE)))
                 )
                 
                 (gimp-image-insert-layer image layer 0 0)
@@ -271,23 +337,49 @@
                         ((turtle-internal-is-expected-command command 'down)
                             (set! pen-state 'down)
                             (print "✏️ Pen is put down"))
+                        
                         ((turtle-internal-is-expected-command command 'up)
                             (set! pen-state 'up)
                             (print "✏️ Pen is up"))
+                        
                         ((turtle-internal-is-color-command command)
-                            (gimp-context-set-foreground (turtle-internal-color-to-rgb (car command)))
-                            (print (string-append "🎨️ Color is set to " (symbol->string (car command)))))
+                            (gimp-context-set-foreground
+                                (turtle-internal-color-to-rgb (car command)))
+                            (print (string-append "🎨️ Color is set to "
+                                (symbol->string (car command)))))
+                        
                         ((turtle-internal-is-expected-command command 'left)
-                            (set! angle (- angle (turtle-internal-argument command)))
-                            (print (string-append "↪️ Turned to the left at " (number->string (turtle-internal-argument command)) " degrees")))
+                            (set! angle (- angle
+                                (turtle-internal-argument command)))
+                            (print (string-append "↪️ Turned to the left at "
+                                (number->string
+                                    (turtle-internal-argument command))
+                                " degrees")))
+                        
                         ((turtle-internal-is-expected-command command 'right)
-                            (set! angle (+ angle (turtle-internal-argument command)))
-                            (print (string-append "↪️ Turned to the right at " (number->string (turtle-internal-argument command)) " degrees")))
+                            (set! angle (+ angle
+                                (turtle-internal-argument command)))
+                            (print (string-append "↪️ Turned to the right at "
+                                (number->string
+                                    (turtle-internal-argument command))
+                                " degrees")))
+                        
                         ((turtle-internal-is-expected-command command 'forward)
-                            (let*
-                                (
-                                    (new-x (+ x (* (cos (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
-                                    (new-y (+ y (* (sin (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
+                            (let* (
+                                    (new-x (+ x
+                                        (*
+                                            (cos
+                                                (turtle-internal-degrees-to-radians
+                                                    angle))
+                                            (turtle-internal-argument command))))
+
+                                    (new-y (+ y
+                                        (*
+                                            (sin
+                                                (turtle-internal-degrees-to-radians
+                                                    angle))
+                                            (turtle-internal-argument command))))
+                                    
                                     (points (cons-array 4 'double))
                                 )
                                 
@@ -299,7 +391,16 @@
                                 (cond
                                     ((equal? pen-state 'down)
                                         (gimp-pencil layer 4 points)
-                                        (print (string-append "📝️ Drew a line from " (turtle-internal-point-to-string x y) " to " (turtle-internal-point-to-string new-x new-y)))
+                                        (print
+                                            (string-append
+                                                "📝️ Drew a line from "
+                                                (turtle-internal-point-to-string
+                                                    x
+                                                    y)
+                                                " to "
+                                                (turtle-internal-point-to-string
+                                                    new-x
+                                                    new-y)))
                                     )
                                     (else (print "❌️✏️ Can't draw, pen is up"))
                                 )
@@ -308,11 +409,23 @@
                                 (set! y new-y)
                             )
                         )
+
                         ((turtle-internal-is-expected-command command 'backward)
-                            (let*
-                                (
-                                    (new-x (- x (* (cos (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
-                                    (new-y (- y (* (sin (turtle-internal-degrees-to-radians angle)) (turtle-internal-argument command))))
+                            (let* (
+                                    (new-x (- x
+                                        (*
+                                            (cos
+                                                (turtle-internal-degrees-to-radians
+                                                    angle))
+                                            (turtle-internal-argument command))))
+
+                                    (new-y (- y
+                                        (*
+                                            (sin
+                                                (turtle-internal-degrees-to-radians
+                                                    angle))
+                                            (turtle-internal-argument command))))
+                                    
                                     (points (cons-array 4 'double))
                                 )
                                 
@@ -324,7 +437,16 @@
                                 (cond
                                     ((equal? pen-state 'down)
                                         (gimp-pencil layer 4 points)
-                                        (print (string-append "📝️ Drew a line from " (turtle-internal-point-to-string x y) " to " (turtle-internal-point-to-string new-x new-y)))
+                                        (print
+                                            (string-append
+                                                "📝️ Drew a line from "
+                                                (turtle-internal-point-to-string
+                                                    x
+                                                    y)
+                                                " to "
+                                                (turtle-internal-point-to-string
+                                                    new-x
+                                                    new-y)))
                                     )
                                     (else (print "❌️✏️ Can't draw, pen is up"))
                                 )
@@ -340,15 +462,16 @@
             )
             #t)
         (else
-            (let*
-                (
-                    (message (string-append "Configuration in " configuration-path " or input parameters are incorrect"))
+            (let* (
+                    (message (string-append "Configuration in "
+                        configuration-path
+                        " or input parameters are incorrect"))
                 )
-            
 
                 (print message)
                 (gimp-message message)
             )
+
             #f
         )
     )
