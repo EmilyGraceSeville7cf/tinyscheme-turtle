@@ -126,3 +126,34 @@ Draw a red square 30x30:
     (forward 30)
 ))
 ```
+
+Draw a multi-color cross sign 100x100:
+
+```lisp
+(define turtle-configuration '(
+    (down)
+    (red)
+    (move-on 50 50)
+
+    (up)
+    (move-on -50 -50)
+
+    (down)
+    (green)
+    (move-on -50 -50)
+
+    (up)
+    (move-on 50 50)
+
+    (down)
+    (blue)
+    (move-on 50 -50)
+
+    (up)
+    (move-on -50 50)
+
+    (down)
+    (yellow)
+    (move-on -50 50)
+))
+```
