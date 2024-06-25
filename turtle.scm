@@ -26,6 +26,21 @@
     )
 )
 
+; Get a first item matching a predicate or a default value if such an item doesn't exist
+(define (turtle-internal-first-match-or-default predicate default list)
+    (cond
+        ((null? list) default)
+        (else
+            (cond
+                ((predicate (car list)) (car list))
+                (else (turtle-internal-first-match-or-default predicate
+                    default
+                    (cdr list)))
+            )
+        )
+    )
+)
+
 ; Convert a list | vector to a string with a specific delimiter
 (define (turtle-internal-sequence-to-string sequence delimiter)
     (let* (
@@ -147,19 +162,24 @@
     (not (turtle-internal-is-command command))
 )
 
-; Check whether a command has an argument
-(define (turtle-internal-has-argument command)
+; Check whether a command has a specific amount of arguments
+(define (turtle-internal-has-arguments command count)
+    (= (length (cdr command)) count)
+)
+
+; Check whether a command has any arguments
+(define (turtle-internal-has-any-arguments command)
     (not (null? (cdr command)))
 )
 
-; Check whether a command has no argument
-(define (turtle-internal-has-no-argument command)
-    (not (turtle-internal-has-argument command))
+; Check whether a command has no arguments
+(define (turtle-internal-has-no-arguments command)
+    (turtle-internal-has-arguments command 0)
 )
 
 ; Get a command argument
-(define (turtle-internal-argument command)
-    (cadr command)
+(define (turtle-internal-argument command index)
+    (nth index (cdr command))
 )
 
 ; Check whether a command is an expected one
@@ -207,7 +227,7 @@
 
                     ((and (or (turtle-internal-is-color-command command)
                         (turtle-internal-is-pen-command command))
-                        (turtle-internal-has-argument command))
+                        (turtle-internal-has-any-arguments command))
 
                         (turtle-internal-make-error "argument"
                             "configuration[...]"
@@ -220,25 +240,12 @@
                     
                     ((and (or (turtle-internal-is-movement-command command)
                         (turtle-internal-is-rotation-command command))
-                        (turtle-internal-has-no-argument command))
+                        (not (turtle-internal-has-arguments command 1)))
                         
                         (turtle-internal-make-error "argument"
                             "configuration[...]"
                             command-string
-                            (string-append "argument for "
-                                (turtle-to-string-with-delimiter (append
-                                    turtle-movement-commands
-                                    turtle-rotation-commands)
-                                    " | "))))
-
-                    ((and (or (turtle-internal-is-movement-command command)
-                        (turtle-internal-is-rotation-command command))
-                        (turtle-internal-has-no-argument command))
-                        
-                        (turtle-internal-make-error "argument"
-                            "configuration[...]"
-                            command-string
-                            (string-append "argument for "
+                            (string-append "one argument for "
                                 (turtle-to-string-with-delimiter (append
                                     turtle-movement-commands
                                     turtle-rotation-commands)
@@ -246,7 +253,7 @@
                     
                     ((and (or (turtle-internal-is-movement-command command)
                         (turtle-internal-is-rotation-command command))
-                        (not (integer? (turtle-internal-argument command))))
+                        (not (integer? (turtle-internal-argument command 0))))
                         
                         (turtle-internal-make-error "argument"
                             "configuration[...]"
@@ -350,18 +357,18 @@
                         
                         ((turtle-internal-is-expected-command command 'left)
                             (set! angle (- angle
-                                (turtle-internal-argument command)))
+                                (turtle-internal-argument command 0)))
                             (print (string-append "↪️ Turned to the left at "
                                 (number->string
-                                    (turtle-internal-argument command))
+                                    (turtle-internal-argument command 0))
                                 " degrees")))
                         
                         ((turtle-internal-is-expected-command command 'right)
                             (set! angle (+ angle
-                                (turtle-internal-argument command)))
+                                (turtle-internal-argument command 0)))
                             (print (string-append "↪️ Turned to the right at "
                                 (number->string
-                                    (turtle-internal-argument command))
+                                    (turtle-internal-argument command 0))
                                 " degrees")))
                         
                         ((turtle-internal-is-expected-command command 'forward)
@@ -371,14 +378,14 @@
                                             (cos
                                                 (turtle-internal-degrees-to-radians
                                                     angle))
-                                            (turtle-internal-argument command))))
+                                            (turtle-internal-argument command 0))))
 
                                     (new-y (+ y
                                         (*
                                             (sin
                                                 (turtle-internal-degrees-to-radians
                                                     angle))
-                                            (turtle-internal-argument command))))
+                                            (turtle-internal-argument command 0))))
                                     
                                     (points (cons-array 4 'double))
                                 )
@@ -417,14 +424,14 @@
                                             (cos
                                                 (turtle-internal-degrees-to-radians
                                                     angle))
-                                            (turtle-internal-argument command))))
+                                            (turtle-internal-argument command 0))))
 
                                     (new-y (- y
                                         (*
                                             (sin
                                                 (turtle-internal-degrees-to-radians
                                                     angle))
-                                            (turtle-internal-argument command))))
+                                            (turtle-internal-argument command 0))))
                                     
                                     (points (cons-array 4 'double))
                                 )
@@ -463,9 +470,19 @@
             #t)
         (else
             (let* (
-                    (message (string-append "Configuration in "
+                    (first-error (turtle-internal-first-match-or-default
+                        string?
+                        ""
+                        (turtle-validate-configuration turtle-configuration)))
+                    (message
+                        "One or more input parameters for turtle-draw are incorrect")
+                )
+                
+                (if (not (equal? first-error ""))
+                    (set! message (string-append "One or more commands in "
                         configuration-path
-                        " or input parameters are incorrect"))
+                        " are invalid, the first error is: "
+                        first-error))
                 )
 
                 (print message)
