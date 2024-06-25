@@ -55,7 +55,8 @@ Each command is a list.
 
 | Command  | Description                                             | Arguments                                                                        | Example           |
 | -------- | ------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------- |
-| move-on  | Move the turtle on a specific vector                    | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by X axis | `(move-on 30 30)` |
+| move-on  | Move the turtle on a specific vector                    | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-on 30 30)` |
+| move-to  | Move the turtle to a specific point                     | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-to 50 50)` |
 | forward  | Move the turtle forward for a specific amount of units  | `value` (integer) - a unit amount                                                | `(forward 30)`    |
 | backward | Move the turtle backward for a specific amount of units | `value` (integer) - a unit amount                                                | `(backward 30)`   |
 | left     | Rotate the turtle left at a specific amount of degrees  | `value` (integer) - a degree amount                                              | `(left 90)`       |
