@@ -70,6 +70,11 @@ Each command is a list.
 | cyan     | Change the turtle drawing color to cyan                 |                                       |                 |
 | gray     | Change the turtle drawing color to gray                 |                                       |                 |
 
+## API
+
+All functions starting with `turtle-internal-` are internal functions, all
+other ones starting with `turtle-` are free to be used.
+
 ## Hints
 
 - Use `(down)` at the beginning of the `turtle-configuration` to make sure
