@@ -71,34 +71,34 @@ This platform is not tested yet, instructions for it may vary.
 
 Each command is a list.
 
-| Command                 | Description                                             | Arguments                                                                        | Example           |
-| ----------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------- |
-| `move-on`               | Move the turtle on a specific vector                    | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-on 30 30)` |
-| `move-to`               | Move the turtle to a specific point                     | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-to 50 50)` |
-| `forward`               | Move the turtle forward for a specific amount of units  | `value` (integer) - a unit amount                                                | `(forward 30)`    |
-| `backward`              | Move the turtle backward for a specific amount of units | `value` (integer) - a unit amount                                                | `(backward 30)`   |
-| `move-to-center`        | Move the turtle to the center                           |                                                                                  |                   |
-| `move-to-top-left`      | Move the turtle to the top left corner                  |                                                                                  |                   |
-| `move-to-top-middle`    | Move the turtle to the top middle side                  |                                                                                  |                   |
-| `move-to-top-right`     | Move the turtle to the top right corner                 |                                                                                  |                   |
-| `move-to-middle-right`  | Move the turtle to the middle right side                |                                                                                  |                   |
-| `move-to-bottom-right`  | Move the turtle to the bottom right corner              |                                                                                  |                   |
-| `move-to-bottom-middle` | Move the turtle to the bottom middle side               |                                                                                  |                   |
-| `move-to-bottom-left`   | Move the turtle to the bottom left corner               |                                                                                  |                   |
-| `move-to-middle-left`   | Move the turtle to the middle left side                 |                                                                                  |                   |
-| `left`                  | Rotate the turtle left at a specific amount of degrees  | `value` (integer) - a degree amount                                              | `(left 90)`       |
-| `right`                 | Rotate the turtle right at a specific amount of degrees | `value` (integer) - a degree amount                                              | `(right 90)`      |
-| `up`                    | Make turtle not draw on movements                       |                                                                                  |                   |
-| `down`                  | Make turtle draw on movements                           |                                                                                  |                   |
-| `black`                 | Change the turtle drawing color to black                |                                                                                  |                   |
-| `red`                   | Change the turtle drawing color to red                  |                                                                                  |                   |
-| `green`                 | Change the turtle drawing color to green                |                                                                                  |                   |
-| `yellow`                | Change the turtle drawing color to yellow               |                                                                                  |                   |
-| `blue`                  | Change the turtle drawing color to blue                 |                                                                                  |                   |
-| `magenta`               | Change the turtle drawing color to magenta              |                                                                                  |                   |
-| `cyan`                  | Change the turtle drawing color to cyan                 |                                                                                  |                   |
-| `gray`                  | Change the turtle drawing color to gray                 |                                                                                  |                   |
-| `random-color`          | Change the turtle drawing color to a random one         |                                                                                  |                   |
+| Command                 | Description                                             | Arguments                                                                        | Example              |
+| ----------------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------- | -------------------- |
+| `move-on`               | Move the turtle on a specific vector                    | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-on 30 30)`    |
+| `move-to`               | Move the turtle to a specific point                     | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-to 50 50)`    |
+| `move-forward`          | Move the turtle forward for a specific amount of units  | `value` (integer) - a unit amount                                                | `(move-forward 30)`  |
+| `move-backward`         | Move the turtle backward for a specific amount of units | `value` (integer) - a unit amount                                                | `(move-backward 30)` |
+| `move-to-center`        | Move the turtle to the center                           |                                                                                  |                      |
+| `move-to-top-left`      | Move the turtle to the top left corner                  |                                                                                  |                      |
+| `move-to-top-middle`    | Move the turtle to the top middle side                  |                                                                                  |                      |
+| `move-to-top-right`     | Move the turtle to the top right corner                 |                                                                                  |                      |
+| `move-to-middle-right`  | Move the turtle to the middle right side                |                                                                                  |                      |
+| `move-to-bottom-right`  | Move the turtle to the bottom right corner              |                                                                                  |                      |
+| `move-to-bottom-middle` | Move the turtle to the bottom middle side               |                                                                                  |                      |
+| `move-to-bottom-left`   | Move the turtle to the bottom left corner               |                                                                                  |                      |
+| `move-to-middle-left`   | Move the turtle to the middle left side                 |                                                                                  |                      |
+| `turn-left`             | Rotate the turtle left at a specific amount of degrees  | `value` (integer) - a degree amount                                              | `(turn-left 90)`     |
+| `turn-right`            | Rotate the turtle right at a specific amount of degrees | `value` (integer) - a degree amount                                              | `(turn-right 90)`    |
+| `up`                    | Make turtle not draw on movements                       |                                                                                  |                      |
+| `down`                  | Make turtle draw on movements                           |                                                                                  |                      |
+| `black`                 | Change the turtle drawing color to black                |                                                                                  |                      |
+| `red`                   | Change the turtle drawing color to red                  |                                                                                  |                      |
+| `green`                 | Change the turtle drawing color to green                |                                                                                  |                      |
+| `yellow`                | Change the turtle drawing color to yellow               |                                                                                  |                      |
+| `blue`                  | Change the turtle drawing color to blue                 |                                                                                  |                      |
+| `magenta`               | Change the turtle drawing color to magenta              |                                                                                  |                      |
+| `cyan`                  | Change the turtle drawing color to cyan                 |                                                                                  |                      |
+| `gray`                  | Change the turtle drawing color to gray                 |                                                                                  |                      |
+| `random-color`          | Change the turtle drawing color to a random one         |                                                                                  |                      |
 
 ## **theme configuration script** options
 
@@ -161,13 +161,13 @@ Draw a red square 30x30:
 (define turtle-configuration '(
     (down)
     (red)
-    (forward 30)
+    (move-forward 30)
     (left 90)
-    (forward 30)
+    (move-forward 30)
     (left 90)
-    (forward 30)
+    (move-forward 30)
     (left 90)
-    (forward 30)
+    (move-forward 30)
 ))
 ```
 
