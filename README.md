@@ -138,17 +138,22 @@ other ones starting with `turtle-` are free to be used.
     "move": {
         "prefix": "m",
         "description": "[m]ove the turtle for a specific amount of units",
-        "body": "(${1|forward,backward|} ${2:units})"
+        "body": "(move-${1|forward,backward|} ${2:units})"
+    },
+    "special move": {
+        "prefix": "sm",
+        "description": "[m]ove the turtle for to a [s]pecific image corner or side",
+        "body": "(move-to-${1|move-to-center,move-to-top-left,move-to-top-middle,move-to-top-right,move-to-middle-right,move-to-bottom-right,move-to-bottom-middle,move-to-bottom-left,move-to-middle-left|})"
     },
     "rotate": {
         "prefix": "r",
         "description": "[r]otate the turtle at a specific amount of degrees",
-        "body": "(${1|left,right|} ${2:degrees})"
+        "body": "(turn-${1|left,right|} ${2:degrees})"
     },
     "color": {
         "prefix": "c",
         "description": "Change the turtle drawing [c]olor",
-        "body": "(${1|black,red,green,yellow,blue,magenta,cyan,gray|})"
+        "body": "(${1|black,red,green,yellow,blue,magenta,cyan,gray,random-color|})"
     }
 }
 ```
