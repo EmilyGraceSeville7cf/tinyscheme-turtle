@@ -91,7 +91,7 @@ Each command is a list.
 | `gray`         | Change the turtle drawing color to gray                 |                                                                                  |                   |
 | `random-color` | Change the turtle drawing color to a random one         |                                                                                  |                   |
 
-## **theme configuration script** commands
+## **theme configuration script** options
 
 Each color mapping from its name to an RGB value is a list.
 
