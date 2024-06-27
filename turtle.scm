@@ -1,5 +1,5 @@
 (define turtle-vector-movement-commands '(move-to move-on))
-(define turtle-movement-commands '(forward backward))
+(define turtle-movement-commands '(move-forward move-backward))
 
 (define turtle-special-movement-commands '(move-to-center
     move-to-top-left
@@ -11,7 +11,7 @@
     move-to-bottom-left
     move-to-middle-left))
 
-(define turtle-rotation-commands '(left right))
+(define turtle-rotation-commands '(turn-left turn-right))
 
 (define turtle-color-commands '(black
     red
@@ -469,7 +469,7 @@
                             (print (string-append "🎨️ Color is set to "
                                 (symbol->string (car command)))))
                         
-                        ((turtle-internal-is-expected-command command 'left)
+                        ((turtle-internal-is-expected-command command 'turn-left)
                             (set! angle (- angle
                                 (turtle-internal-argument command 0)))
                             (print (string-append "↪️ Turned to the left at "
@@ -477,7 +477,7 @@
                                     (turtle-internal-argument command 0))
                                 " degrees")))
                         
-                        ((turtle-internal-is-expected-command command 'right)
+                        ((turtle-internal-is-expected-command command 'turn-right)
                             (set! angle (+ angle
                                 (turtle-internal-argument command 0)))
                             (print (string-append "↪️ Turned to the right at "
@@ -486,7 +486,7 @@
                                 " degrees")))
                         
                         ((turtle-internal-is-expected-command command
-                            'forward)
+                            'move-forward)
                         
                             (let* (
                                     (new-x (+ x
@@ -519,7 +519,7 @@
                         )
 
                         ((turtle-internal-is-expected-command command
-                            'backward)
+                            'move-backward)
                         
                             (let* (
                                     (new-x (- x
@@ -764,12 +764,7 @@
     "Turtle draw"
     (string-append "Creates a simple drawing with a turtle commands.\
 \
-Available commands: " (turtle-to-string turtle-all-commands) ".\
-- " (turtle-to-string turtle-movement-commands) " require a single argument denoting amount of pixels to move the turtle on.\
-- " (turtle-to-string turtle-rotation-commands) " require a single argument denoting amount of degrees to rotate the turtle at.\
-- Other commands don't require any argument.\
-\
-All commands should be put in a list like this: '((red) (forward 30) (left 90) (forward 30))"
+https://github.com/EmilyGraceSeville7cf/tinyscheme-turtle"
 )
     "Maisa Unbelievable"
     "copyright 2024, Maisa Unbelievable"
