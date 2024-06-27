@@ -328,17 +328,12 @@
 ; Convert a color name to RGB
 (define (turtle-internal-color-to-rgb color)
     (cond
-        ((equal? 'black color) '(0 0 0))
-        ((equal? 'red color) '(255 0 0))
-        ((equal? 'green color) '(0 255 0))
-        ((equal? 'yellow color) '(255 255 0))
-        ((equal? 'blue color) '(0 0 255))
-        ((equal? 'magenta color) '(255 0 138))
-        ((equal? 'cyan color) '(2 247 243))
-        ((equal? 'gray color) '(143 143 143))
         ((equal? 'random-color color) (turtle-internal-color-to-rgb
             (nth (rand (- (length turtle-color-commands) 1))
             turtle-color-commands)))
+        ((turtle-internal-is-color-command (list color)) (cadr
+            (assoc color turtle-theme))
+        )
         (else #f) 
     )
 )
@@ -355,6 +350,7 @@
 
 ; Draw with a turtle
 (define (turtle-draw configuration-path
+    theme-path
     x
     y
     color
@@ -365,6 +361,7 @@
     image-height)
 
     (load configuration-path)
+    (load theme-path)
     (set! color (nth color turtle-color-commands))
     (set! pen-state (nth pen-state turtle-pen-commands))
     (srand (realtime))
@@ -647,6 +644,9 @@ All commands should be put in a list like this: '((red) (forward 30) (left 90) (
     SF-FILENAME "Path to a configuration file\
 with a 'turtle-configuration' variable\
 with turtle commands" "/home/USER/.config/GIMP/2.10/scripts/NAME.scm"
+    SF-FILENAME "Path to a configuration file\
+with a 'turtle-theme' variable\
+with turtle colors" "/home/USER/.config/GIMP/2.10/scripts/NAME.scm"
     SF-ADJUSTMENT "Initial X coordinate" '(50 0 1000 1 5 0 SF-SPINNER)
     SF-ADJUSTMENT "Initial Y coordinate" '(50 0 1000 1 5 0 SF-SPINNER)
     SF-OPTION "Initial color" (map symbol->string turtle-color-commands)

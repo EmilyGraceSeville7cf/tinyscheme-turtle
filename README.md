@@ -28,8 +28,7 @@ This platform is not tested yet, instructions for it may vary.
 ### Linux
 
 - Create a script `turtle-commands.scm` (referred as a **configuration script**
-  later) in `~/.config/GIMP/2.10/scripts/` with
-  the following content:
+  later) in `~/.config/GIMP/2.10/scripts/` with the following content:
 
 ```lisp
 ; Don't change the variable name
@@ -38,8 +37,27 @@ This platform is not tested yet, instructions for it may vary.
 ))
 ```
 
+- Create a script `turtle-theme.scm` (referred as a **theme configuration**
+  **script** later) in `~/.config/GIMP/2.10/scripts/` with the following
+  content:
+
+```lisp
+; Don't change the variable name,
+; change RGB color values if other colors are needed
+(define turtle-theme '((black (0 0 0)) ; Don't remove this quote
+    (red (255 0 0))
+    (green (0 255 0))
+    (yellow (255 255 0))
+    (blue (0 0 255))
+    (magenta (255 0 138))
+    (cyan (2 247 243))
+    (gray (143 143 143))))
+
+```
+
 - Run **main script** via `File > Create > Turtle draw`.
-- Select **configuration script** in the opened window.
+- Select **configuration script** and **them configuration script** in the
+  opened window.
 
 ### Mac OS
 
@@ -53,25 +71,40 @@ This platform is not tested yet, instructions for it may vary.
 
 Each command is a list.
 
-| Command      | Description                                             | Arguments                                                                        | Example           |
-| ------------ | ------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------- |
-| move-on      | Move the turtle on a specific vector                    | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-on 30 30)` |
-| move-to      | Move the turtle to a specific point                     | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-to 50 50)` |
-| forward      | Move the turtle forward for a specific amount of units  | `value` (integer) - a unit amount                                                | `(forward 30)`    |
-| backward     | Move the turtle backward for a specific amount of units | `value` (integer) - a unit amount                                                | `(backward 30)`   |
-| left         | Rotate the turtle left at a specific amount of degrees  | `value` (integer) - a degree amount                                              | `(left 90)`       |
-| right        | Rotate the turtle right at a specific amount of degrees | `value` (integer) - a degree amount                                              | `(right 90)`      |
-| up           | Make turtle not draw on movements                       |                                                                                  |                   |
-| down         | Make turtle draw on movements                           |                                                                                  |                   |
-| black        | Change the turtle drawing color to black                |                                                                                  |                   |
-| red          | Change the turtle drawing color to red                  |                                                                                  |                   |
-| green        | Change the turtle drawing color to green                |                                                                                  |                   |
-| yellow       | Change the turtle drawing color to yellow               |                                                                                  |                   |
-| blue         | Change the turtle drawing color to blue                 |                                                                                  |                   |
-| magenta      | Change the turtle drawing color to magenta              |                                                                                  |                   |
-| cyan         | Change the turtle drawing color to cyan                 |                                                                                  |                   |
-| gray         | Change the turtle drawing color to gray                 |                                                                                  |                   |
-| random-color | Change the turtle drawing color to a random one         |                                                                                  |                   |
+| Command        | Description                                             | Arguments                                                                        | Example           |
+| -------------- | ------------------------------------------------------- | -------------------------------------------------------------------------------- | ----------------- |
+| `move-on`      | Move the turtle on a specific vector                    | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-on 30 30)` |
+| `move-to`      | Move the turtle to a specific point                     | `x` (integer) - a unit amount by X axis; `y` (integer) - a unit amount by Y axis | `(move-to 50 50)` |
+| `forward`      | Move the turtle forward for a specific amount of units  | `value` (integer) - a unit amount                                                | `(forward 30)`    |
+| `backward`     | Move the turtle backward for a specific amount of units | `value` (integer) - a unit amount                                                | `(backward 30)`   |
+| `left`         | Rotate the turtle left at a specific amount of degrees  | `value` (integer) - a degree amount                                              | `(left 90)`       |
+| `right`        | Rotate the turtle right at a specific amount of degrees | `value` (integer) - a degree amount                                              | `(right 90)`      |
+| `up`           | Make turtle not draw on movements                       |                                                                                  |                   |
+| `down`         | Make turtle draw on movements                           |                                                                                  |                   |
+| `black`        | Change the turtle drawing color to black                |                                                                                  |                   |
+| `red`          | Change the turtle drawing color to red                  |                                                                                  |                   |
+| `green`        | Change the turtle drawing color to green                |                                                                                  |                   |
+| `yellow`       | Change the turtle drawing color to yellow               |                                                                                  |                   |
+| `blue`         | Change the turtle drawing color to blue                 |                                                                                  |                   |
+| `magenta`      | Change the turtle drawing color to magenta              |                                                                                  |                   |
+| `cyan`         | Change the turtle drawing color to cyan                 |                                                                                  |                   |
+| `gray`         | Change the turtle drawing color to gray                 |                                                                                  |                   |
+| `random-color` | Change the turtle drawing color to a random one         |                                                                                  |                   |
+
+## **theme configuration script** options
+
+Each color mapping from its name to an RGB value is a list.
+
+| Color   | Description                           | Default       |
+| ------- | ------------------------------------- | ------------- |
+| black   | Color corresponding to a name black   | (0 0 0)       |
+| red     | Color corresponding to a name red     | (255 0 0)     |
+| green   | Color corresponding to a name green   | (0 255 0)     |
+| yellow  | Color corresponding to a name yellow  | (255 255 0)   |
+| blue    | Color corresponding to a name blue    | (0 0 255)     |
+| magenta | Color corresponding to a name magenta | (255 0 138)   |
+| cyan    | Color corresponding to a name cyan    | (2 247 243)   |
+| gray    | Color corresponding to a name gray    | (143 143 143) |
 
 ## API
 
