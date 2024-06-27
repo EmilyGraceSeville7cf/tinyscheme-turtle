@@ -764,12 +764,7 @@
     "Turtle draw"
     (string-append "Creates a simple drawing with a turtle commands.\
 \
-Available commands: " (turtle-to-string turtle-all-commands) ".\
-- " (turtle-to-string turtle-movement-commands) " require a single argument denoting amount of pixels to move the turtle on.\
-- " (turtle-to-string turtle-rotation-commands) " require a single argument denoting amount of degrees to rotate the turtle at.\
-- Other commands don't require any argument.\
-\
-All commands should be put in a list like this: '((red) (move-forward 30) (turn-left 90) (move-forward 30))"
+https://github.com/EmilyGraceSeville7cf/tinyscheme-turtle"
 )
     "Maisa Unbelievable"
     "copyright 2024, Maisa Unbelievable"
