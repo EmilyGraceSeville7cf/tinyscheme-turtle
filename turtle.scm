@@ -1,5 +1,16 @@
 (define turtle-vector-movement-commands '(move-to move-on))
 (define turtle-movement-commands '(forward backward))
+
+(define turtle-special-movement-commands '(move-to-center
+    move-to-top-left
+    move-to-top-middle
+    move-to-top-right
+    move-to-middle-right
+    move-to-bottom-right
+    move-to-bottom-middle
+    move-to-bottom-left
+    move-to-middle-left))
+
 (define turtle-rotation-commands '(left right))
 
 (define turtle-color-commands '(black
@@ -16,6 +27,7 @@
 
 (define turtle-all-commands (append turtle-vector-movement-commands
     turtle-movement-commands
+    turtle-special-movement-commands
     turtle-rotation-commands
     turtle-color-commands
     turtle-pen-commands))
@@ -135,6 +147,11 @@
     (turtle-internal-member? (car command) turtle-movement-commands)
 )
 
+; Check whether a command is a special movement command
+(define (turtle-internal-is-special-movement-command command)
+    (turtle-internal-member? (car command) turtle-special-movement-commands)
+)
+
 ; Check whether a command is a rotation command
 (define (turtle-internal-is-rotation-command command)
     (turtle-internal-member? (car command) turtle-rotation-commands)
@@ -163,6 +180,11 @@
 ; Check whether a command is not a movement command
 (define (turtle-internal-is-not-movement-command command)
     (not (turtle-internal-is-movement-command command))
+)
+
+; Check whether a command is not a special movement command
+(define (turtle-internal-is-not-special-movement-command command)
+    (not (turtle-internal-is-special-movement-command command))
 )
 
 ; Check whether a command is not a rotation command
@@ -249,7 +271,8 @@
                                     turtle-all-commands " | "))))
 
                     ((and (or (turtle-internal-is-color-command command)
-                        (turtle-internal-is-pen-command command))
+                        (turtle-internal-is-pen-command command)
+                        (turtle-internal-is-special-movement-command command))
                         (turtle-internal-has-any-arguments command))
 
                         (turtle-internal-make-error "argument"
@@ -258,7 +281,8 @@
                             (string-append "no argument for "
                                 (turtle-to-string-with-delimiter (append
                                     turtle-color-commands
-                                    turtle-pen-commands)
+                                    turtle-pen-commands
+                                    turtle-special-movement-commands)
                                     " | "))))
                     
                     ((and (or (turtle-internal-is-movement-command command)
@@ -348,6 +372,42 @@
     (string-append "(" (turtle-to-string x) ", " (turtle-to-string y) ")")
 )
 
+; Draw line or move
+(define (turtle-internal-draw-or-move-to from-x
+    from-y
+    to-x
+    to-y
+    pen-state
+    layer)
+
+    (let* (
+            (points (cons-array 4 'double))
+        )
+        
+        (aset points 0 from-x)
+        (aset points 1 from-y)
+        (aset points 2 to-x)
+        (aset points 3 to-y)
+        
+        (cond
+            ((equal? pen-state 'down)
+                (gimp-pencil layer 4 points)
+                (print
+                    (string-append
+                        "📝️ Drew a line from "
+                        (turtle-internal-point-to-string
+                            from-x
+                            from-y)
+                        " to "
+                        (turtle-internal-point-to-string
+                            to-x
+                            to-y)))
+            )
+            (else (print "❌️✏️ Can't draw, pen is up"))
+        )
+    )
+)
+
 ; Draw with a turtle
 (define (turtle-draw configuration-path
     theme-path
@@ -383,6 +443,10 @@
                             "drawing"
                             100
                             NORMAL-MODE)))
+                    (image-width (car (gimp-image-width image)))
+                    (image-height (car (gimp-image-height image)))
+                    (image-width-half (/ image-width 2))
+                    (image-height-half (/ image-height 2))
                 )
                 
                 (gimp-image-insert-layer image layer 0 0)
@@ -591,6 +655,132 @@
                                 (set! x new-x)
                                 (set! y new-y)
                             )
+                        )
+
+                        ((turtle-internal-is-expected-command command
+                            'move-to-center)
+                        
+                            (turtle-internal-draw-or-move-to x
+                                y
+                                image-width-half
+                                image-height-half
+                                pen-state
+                                layer)
+                            
+                            (set! x image-width-half)
+                            (set! y image-height-half)
+                        )
+
+                        ((turtle-internal-is-expected-command command
+                            'move-to-top-left)
+                        
+                            (turtle-internal-draw-or-move-to x
+                                y
+                                0
+                                0
+                                pen-state
+                                layer)
+                            
+                            (set! x 0)
+                            (set! y 0)
+                        )
+
+                        ((turtle-internal-is-expected-command command
+                            'move-to-top-middle)
+                        
+                            (turtle-internal-draw-or-move-to x
+                                y
+                                image-width-half
+                                0
+                                pen-state
+                                layer)
+                            
+                            (set! x image-width-half)
+                            (set! y 0)
+                        )
+
+                        ((turtle-internal-is-expected-command command
+                            'move-to-top-right)
+                        
+                            (turtle-internal-draw-or-move-to x
+                                y
+                                image-width
+                                0
+                                pen-state
+                                layer)
+                            
+                            (set! x image-width)
+                            (set! y 0)
+                        )
+
+                        ((turtle-internal-is-expected-command command
+                            'move-to-middle-right)
+                        
+                            (turtle-internal-draw-or-move-to x
+                                y
+                                image-width
+                                image-height-half
+                                pen-state
+                                layer)
+                            
+                            (set! x image-width)
+                            (set! y image-height-half)
+                        )
+
+                        ((turtle-internal-is-expected-command command
+                            'move-to-bottom-right)
+                        
+                            (turtle-internal-draw-or-move-to x
+                                y
+                                image-width
+                                image-height
+                                pen-state
+                                layer)
+                            
+                            (set! x image-width)
+                            (set! y image-height)
+                        )
+
+                        ((turtle-internal-is-expected-command command
+                            'move-to-bottom-middle)
+                        
+                            (turtle-internal-draw-or-move-to x
+                                y
+                                image-width-half
+                                image-height
+                                pen-state
+                                layer)
+                            
+                            (set! x image-width-half)
+                            (set! y image-height)
+                        )
+
+                        ((turtle-internal-is-expected-command command
+                            'move-to-bottom-left)
+                        
+                            (turtle-internal-draw-or-move-to x
+                                y
+                                0
+                                image-height
+                                pen-state
+                                layer)
+                            
+                            (set! x 0)
+                            (set! y image-height)
+                        )
+
+                        ((turtle-internal-is-expected-command command
+                            'move-to-middle-left)
+                        
+                            (turtle-internal-draw-or-move-to x
+                                y
+                                0
+                                image-height-half
+                                pen-state
+                                layer)
+                            
+                            (set! x 0)
+                            (set! y image-height-half)
                         )
                     )
                 ) turtle-configuration)
