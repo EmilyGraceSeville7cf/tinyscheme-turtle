@@ -137,25 +137,98 @@ other ones starting with `turtle-` are free to be used.
 
 ```json
 {
+    "move forward": {
+        "prefix": "mf",
+        "description": "[m]ove the turtle [f]orward for a specific amount of units",
+        "body": "(move-forward ${1:units})"
+    },
+    "move backward": {
+        "prefix": "mb",
+        "description": "[m]ove the turtle [b]ackward for a specific amount of units",
+        "body": "(move-backward ${1:units})"
+    },
+    "move on": {
+        "prefix": "mo",
+        "description": "[m]ove the turtle [o]n a specific vector",
+        "body": "(move-on ${1:x-units} ${2:y-units})"
+    },
+    "move to": {
+        "prefix": "mt",
+        "description": "[m]ove the turtle [t]o a specific point",
+        "body": "(move-to ${1:x-units} ${2:y-units})"
+    },
     "move": {
         "prefix": "m",
-        "description": "[m]ove the turtle for a specific amount of units",
-        "body": "(move-${1|forward,backward|} ${2:units})"
+        "description": "[m]ove the turtle for to a specific image point",
+        "body": "(move-to-${1|center,top-left,top-middle,top-right,middle-right,bottom-right,bottom-middle,bottom-left,middle-left|})"
     },
-    "special move": {
-        "prefix": "sm",
-        "description": "[m]ove the turtle for to a [s]pecific image corner or side",
-        "body": "(move-to-${1|move-to-center,move-to-top-left,move-to-top-middle,move-to-top-right,move-to-middle-right,move-to-bottom-right,move-to-bottom-middle,move-to-bottom-left,move-to-middle-left|})"
+    "turn left": {
+        "prefix": "tl",
+        "description": "Rotate the turtle [l]eft at a specific amount of degrees",
+        "body": "(turn-left ${1:degrees})"
     },
-    "rotate": {
-        "prefix": "r",
-        "description": "[r]otate the turtle at a specific amount of degrees",
-        "body": "(turn-${1|left,right|} ${2:degrees})"
+    "turn right": {
+        "prefix": "tr",
+        "description": "Rotate the turtle [r]ight at a specific amount of degrees",
+        "body": "(turn-right ${1:degrees})"
+    },
+    "turn left at 90 degrees": {
+        "prefix": "-90",
+        "description": "Rotate the turtle left at 90 degrees",
+        "body": "(turn-left 90)"
+    },
+    "turn right at 90 degrees": {
+        "prefix": "90",
+        "description": "Rotate the turtle right at 90 degrees",
+        "body": "(turn-right 90)"
     },
     "color": {
         "prefix": "c",
         "description": "Change the turtle drawing [c]olor",
         "body": "(${1|black,red,green,yellow,blue,magenta,cyan,gray,random-color|})"
+    },
+    "RGB color": {
+        "prefix": "rgb",
+        "description": "Define the turtle drawing [RGB] color",
+        "body": "(${1:red} ${2:green} ${3:blue})"
+    },
+    "draw line": {
+        "prefix": "dl",
+        "description": "[d]raw a [l]ine",
+        "body": [
+            "(up)",
+            "(move-to ${1:from-x} ${2:from-y})",
+            "(down)",
+            "(move-to ${3:to-x} ${4:to-y})"
+        ]
+    },
+    "draw rectangle": {
+        "prefix": "dr",
+        "description": "[d]raw a [r]ectangle",
+        "body": [
+            "(up)",
+            "(move-to ${1:from-x} ${2:from-y})",
+            "(down)",
+            "(move-forward ${3:width})",
+            "(turn-left 90)",
+            "(move-forward ${4:height})",
+            "(turn-left 90)",
+            "(move-forward ${3:width})",
+            "(turn-left 90)",
+            "(move-forward ${4:height})"
+        ]
+    },
+    "draw triangle": {
+        "prefix": "dt",
+        "description": "[d]raw a [t]riangle",
+        "body": [
+            "(up)",
+            "(move-to ${1:x1} ${2:x1})",
+            "(down)",
+            "(move-to ${3:x2} ${4:y2})",
+            "(move-to ${5:x3} ${6:y3})",
+            "(move-to ${1} ${2})"
+        ]
     }
 }
 ```
