@@ -12,8 +12,18 @@ Script to draw simple drawings.
 
 ### Linux
 
-- Place `turtle.scm` (referred as a **main script** later) in
-  `~/.config/GIMP/2.10/scripts/`.
+Prerequisites (referred as **prerequisites** later):
+
+- [`coreutils`][coreutils]
+- [`httpie`][httpie]
+- [`zenity`][zenity]
+- [`fish`][fish].
+
+Steps:
+
+- Install **prerequisites**.
+- Download `./scripts/linux.fish` (referred as an **installation script** later).
+- Run an **installation script**.
 
 ### Mac OS
 
@@ -22,6 +32,11 @@ This platform is not tested yet, instructions for it may vary.
 ### Windows
 
 This platform is not tested yet, instructions for it may vary.
+
+[coreutils]: https://www.gnu.org/software/coreutils/manual/html_node/index.html
+[zenity]: https://help.gnome.org/users/zenity/2.32/zenity-introduction.html.en
+[fish]: https://fishshell.com/
+[httpie]: https://httpie.io/cli
 
 ## Usage
 
@@ -37,27 +52,10 @@ This platform is not tested yet, instructions for it may vary.
 ))
 ```
 
-- Create a script `turtle-theme.scm` (referred as a **theme configuration**
-  **script** later) in `~/.config/GIMP/2.10/scripts/` with the following
-  content:
-
-```lisp
-; Don't change the variable name,
-; change RGB color values if other colors are needed
-(define turtle-theme '((black (0 0 0)) ; Don't remove this quote
-    (red (255 0 0))
-    (green (0 255 0))
-    (yellow (255 255 0))
-    (blue (0 0 255))
-    (magenta (255 0 138))
-    (cyan (2 247 243))
-    (gray (143 143 143))))
-
-```
-
-- Run **main script** via `File > Create > Turtle draw`.
-- Select **configuration script** and **them configuration script** in the
-  opened window.
+- Run the **main script** via `File > Create > Turtle draw`.
+- Select the **configuration script** and
+  `~/.config/GIMP/2.10/scripts/turtle-theme.scm` (referred as a **theme**
+  **configuration script** later) in the opened window.
 
 ### Mac OS
 
