@@ -22,7 +22,7 @@ Prerequisites (referred as **prerequisites** later):
 Steps:
 
 - Install **prerequisites**.
-- Download `./scripts/linux.fish` (referred as an **installation script** later).
+- Download `linux-install.fish` (referred as an **installation script** later).
 - Run an **installation script**.
 
 ### Mac OS
