@@ -17,7 +17,7 @@ Prerequisites (referred as **prerequisites** later):
 - [`coreutils`][coreutils]
 - [`httpie`][httpie]
 - [`zenity`][zenity]
-- [`fish`][fish].
+- [`fish`][fish]
 
 Steps:
 
