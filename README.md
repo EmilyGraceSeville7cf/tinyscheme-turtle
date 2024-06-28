@@ -4,7 +4,7 @@
 
 ## Description
 
-Script to draw simple drawings.
+Script to draw simple drawings (referred as a **main script** later).
 
 ![UI](UI.png)
 
