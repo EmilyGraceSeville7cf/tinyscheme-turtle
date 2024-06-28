@@ -1,3 +1,4 @@
+; Movement commands
 (define turtle-vector-movement-commands '(move-to move-on))
 (define turtle-movement-commands '(move-forward move-backward))
 
@@ -11,8 +12,10 @@
     move-to-bottom-left
     move-to-middle-left))
 
+; Rotation commands
 (define turtle-rotation-commands '(turn-left turn-right))
 
+; Color changing commands
 (define turtle-color-commands '(black
     red
     green
@@ -23,8 +26,10 @@
     gray
     random-color))
 
+; Pen commands
 (define turtle-pen-commands '(up down))
 
+; All commands
 (define turtle-all-commands (append turtle-vector-movement-commands
     turtle-movement-commands
     turtle-special-movement-commands
