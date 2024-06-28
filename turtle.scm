@@ -16,6 +16,9 @@
 (define turtle-rotation-commands '(turn-left turn-right))
 
 ; Color changing commands
+(define turtle-rgb-color-commands '(rgb
+    rgb-random-color))
+
 (define turtle-color-commands '(black
     red
     green
@@ -34,6 +37,7 @@
     turtle-movement-commands
     turtle-special-movement-commands
     turtle-rotation-commands
+    turtle-rgb-color-commands
     turtle-color-commands
     turtle-pen-commands))
 
@@ -162,6 +166,11 @@
     (turtle-internal-member? (car command) turtle-rotation-commands)
 )
 
+; Check whether a command is an RGB color changing command
+(define (turtle-internal-is-rgb-color-command command)
+    (turtle-internal-member? (car command) turtle-rgb-color-commands)
+)
+
 ; Check whether a command is a color changing command
 (define (turtle-internal-is-color-command command)
     (turtle-internal-member? (car command) turtle-color-commands)
@@ -195,6 +204,11 @@
 ; Check whether a command is not a rotation command
 (define (turtle-internal-is-not-rotation-command command)
     (not (turtle-internal-is-rotation-command command))
+)
+
+; Check whether a command is not an RGB color changing command
+(define (turtle-internal-is-not-rgb-color-command command)
+    (not (turtle-internal-is-rgb-color-command command))
 )
 
 ; Check whether a command is not a color changing command
@@ -341,7 +355,6 @@
                                 (turtle-to-string-with-delimiter
                                     turtle-vector-movement-commands
                                     " | "))))
-
                     (else #t)
                 )
             )) configuration))
@@ -360,6 +373,7 @@
         ((equal? 'random-color color) (turtle-internal-color-to-rgb
             (nth (rand (- (length turtle-color-commands) 1))
             turtle-color-commands)))
+        ((equal? 'rgb-random-color color) (list (rand 255) (rand 255) (rand 255)))
         ((turtle-internal-is-color-command (list color)) (cadr
             (assoc color turtle-theme))
         )
@@ -468,7 +482,30 @@
                             (set! pen-state 'up)
                             (print "✏️ Pen is up"))
                         
-                        ((turtle-internal-is-color-command command)
+                        ((turtle-internal-is-expected-command command
+                            'rgb)
+                        
+                            (let* (
+                                    (red (turtle-internal-argument
+                                        command
+                                        0))
+
+                                    (green (turtle-internal-argument
+                                        command
+                                        1))
+
+                                    (blue (turtle-internal-argument
+                                        command
+                                        2))
+                                )
+                            
+                                (gimp-context-set-foreground
+                                    (list red green blue))
+                            )
+                        )
+                        
+                        ((or (turtle-internal-is-color-command command)
+                            (turtle-internal-is-rgb-color-command command))
                             (gimp-context-set-foreground
                                 (turtle-internal-color-to-rgb (car command)))
                             (print (string-append "🎨️ Color is set to "
