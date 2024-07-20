@@ -1,6 +1,7 @@
 # Turtle
 
 [![discuss.pixls.us](https://img.shields.io/badge/chat-Free%20Software%20Photography-ff69b4.svg?style=flat-square)](https://discuss.pixls.us/t/turtle-for-gimp/44067/4?u=emilygraceseville7cf)
+[![extension](https://img.shields.io/badge/extension-Visual%20Studio%20Code-ff69b4.svg?style=flat-square)](https://github.com/EmilyGraceSeville7cf/typescript-turtle-extension)
 
 ## Description
 
